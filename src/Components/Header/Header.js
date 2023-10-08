@@ -19,7 +19,7 @@ const Header = ({checkWeather,setInputValue,inputValue,handleInputChange}) => {
           <option className={styles.citySelect}></option>
         </datalist>
         <button onClick={() => {
-          checkWeather(setInputValue);
+          checkWeather(inputValue);
         }}>search</button>
       </div> 
       <div className={styles.demo}></div>

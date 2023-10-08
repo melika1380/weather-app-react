@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import Footer from "./Components/Footer/Footer";
 import Header from "./Components/Header/Header";
 import Main from "./Components/Main/Main";
@@ -15,23 +15,25 @@ const App = () => {
   const apiUrl =
     "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
-  const [cityInput, setInputCity] = useState("tehran");
-  const [mainWeather, setMainWeather] = useState("clouds");
-  const [description, setDescription] = useState("few clouds");
-  const [temperature, setTemperature] = useState("20.67");
-  const [minTemperature, setMinTemperature] = useState("17.07");
-  const [maxTemperature, setMaxTemperature] = useState("25.67");
+  const [cityInput, setInputCity] = useState("");
+  const [mainWeather, setMainWeather] = useState("");
+  const [description, setDescription] = useState("");
+  const [temperature, setTemperature] = useState("");
+  const [minTemperature, setMinTemperature] = useState("");
+  const [maxTemperature, setMaxTemperature] = useState("");
   const [inputValue, setInputValue] = useState("");
 
+  useEffect(()=>{
+    checkWeather("tehran");
+},[])
+  
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
 
-  const checkWeather = async () => {
+  const checkWeather = async (city) => {
     try {
-      const cityValue = { inputValue };
-      console.log(cityValue);
-      const response = await fetch(apiUrl + cityValue + `&appid=${apiKey}`);
+      const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
       const data = await response.json();
       console.log(data);
       setInputCity(data.name);
