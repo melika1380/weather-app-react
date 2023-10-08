@@ -15,30 +15,36 @@ const App = () => {
   const apiUrl =
     "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
-  const [city, setCity] = useState("tehran");
+  const [cityInput, setInputCity] = useState("tehran");
   const [mainWeather, setMainWeather] = useState("clouds");
   const [description, setDescription] = useState("few clouds");
-  const [iconWeather, setIconWeather] = useState(icon);
   const [temperature, setTemperature] = useState("20.67");
   const [minTemperature, setMinTemperature] = useState("17.07");
   const [maxTemperature, setMaxTemperature] = useState("25.67");
   const [inputValue, setInputValue] = useState("");
 
-  const checkWeather = async (city) => {
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  const checkWeather = async () => {
     try {
-      const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+      const cityValue = { inputValue };
+      console.log(cityValue);
+      const response = await fetch(apiUrl + cityValue + `&appid=${apiKey}`);
       const data = await response.json();
       console.log(data);
-      setCity(data.name);
+      setInputCity(data.name);
       setTemperature(data.main.temp);
       setMaxTemperature(data.main.temp_max);
       setMinTemperature(data.main.temp_min);
       setMainWeather(data.weather[0].main);
       setDescription(data.weather[0].description);
+
       //props.setDemo("");
       getIconWeather();
     } catch (err) {
-      //props.setDemo("The entered city name is invalid");
+      console.error(err);
     }
   };
   const getIconWeather = (mainWeather) => {
@@ -72,12 +78,16 @@ const App = () => {
 
   return (
     <div>
-      <Header inputValue={inputValue} setInputValue={setInputValue} checkWeather={checkWeather} />
+      <Header
+        inputValue={inputValue}
+        setInputValue={setInputValue}
+        checkWeather={checkWeather}
+        handleInputChange={handleInputChange}
+      />
       <Main
-        city={city}
+        cityInput={cityInput}
         mainWeather={mainWeather}
         description={description}
-        iconWeather={iconWeather}
         temperature={temperature}
       />
       <Footer minTemperature={minTemperature} maxTemperature={maxTemperature} />

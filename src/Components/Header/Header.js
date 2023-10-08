@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import styles from "./Header.module.css";
 
-const Header = ({checkWeather,setInputValue,inputValue}) => {
+const Header = ({checkWeather,setInputValue,inputValue,handleInputChange}) => {
 
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
-    console.log(inputValue);
-  };
+  
 
   return (
     <div>
