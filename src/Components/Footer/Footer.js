@@ -6,13 +6,13 @@ const Footer = (props) => {
   return (
     <div className={styles.footer}>
       <ul className={styles.minList}>
-        <li>{props.minTemperature}</li>
-        <li className={styles.minTemp}></li>
+        <li>min</li>
+        <li className={styles.minTemp}>{props.minTemperature}</li>
       </ul>
       <div className={styles.vertical}></div>
       <ul className={styles.maxList}>
-        <li>{props.maxTemperature}</li>
-        <li className={styles.maxTemp}></li>
+        <li>max</li>
+        <li className={styles.maxTemp}>{props.maxTemperature}</li>
       </ul>
     </div>
   );

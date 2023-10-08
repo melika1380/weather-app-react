@@ -10,7 +10,7 @@ const Main = (props) => {
           <li className={styles.description && styles.bold}>{props.description}</li>
         </ul>
         <div className={styles.icon}>
-          <img className={styles.iconWeather} src={props.iconWeather} />
+          <img className={styles.iconWeather} src={props.weatherIconSrc} />
         </div>
         <div className={styles.temperature}>{props.temperature}</div>
       </div>

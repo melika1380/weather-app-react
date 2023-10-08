@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./Header.module.css";
 
-const Header = ({checkWeather,setInputValue,inputValue,handleInputChange}) => {
+const Header = ({checkWeather,setInputValue,inputValue,handleInputChange,demo}) => {
 
   
 
@@ -22,7 +22,7 @@ const Header = ({checkWeather,setInputValue,inputValue,handleInputChange}) => {
           checkWeather(inputValue);
         }}>search</button>
       </div> 
-      <div className={styles.demo}></div>
+      <div className={styles.demo}>{demo}</div>
     </div>
   );
 };

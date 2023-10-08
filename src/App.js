@@ -1,7 +1,9 @@
 import React, { useState , useEffect } from "react";
+
 import Footer from "./Components/Footer/Footer";
 import Header from "./Components/Header/Header";
 import Main from "./Components/Main/Main";
+
 import icon from "./icon/few-clouds.png";
 import cloudy from "./icon/few-clouds.png";
 import clear from "./icon/clear.png";
@@ -21,6 +23,8 @@ const App = () => {
   const [temperature, setTemperature] = useState("");
   const [minTemperature, setMinTemperature] = useState("");
   const [maxTemperature, setMaxTemperature] = useState("");
+  const [weatherIconSrc, setWeatherIconSrc] = useState(null);
+  const [demo,setDemo]=useState("");
   const [inputValue, setInputValue] = useState("");
 
   useEffect(()=>{
@@ -37,26 +41,27 @@ const App = () => {
       const data = await response.json();
       console.log(data);
       setInputCity(data.name);
-      setTemperature(data.main.temp);
-      setMaxTemperature(data.main.temp_max);
-      setMinTemperature(data.main.temp_min);
+      setTemperature(data.main.temp+"°");
+      setMaxTemperature(data.main.temp_max+"°");
+      setMinTemperature(data.main.temp_min+"°");
       setMainWeather(data.weather[0].main);
       setDescription(data.weather[0].description);
-
-      //props.setDemo("");
       getIconWeather();
     } catch (err) {
-      console.error(err);
+      setDemo("The entered city name is invalid")
     }
   };
   const getIconWeather = (mainWeather) => {
     switch (mainWeather) {
       case "Clear":
-        return clear;
+        setWeatherIconSrc(clear);
+        break;
       case "Clouds":
-        return cloudy;
+        setWeatherIconSrc(cloudy);
+        break;
       case "Drizzle":
-        return rainy;
+        setWeatherIconSrc(rainy);
+        break;
       case "Mist":
       case "Smoke":
       case "Haze":
@@ -66,15 +71,20 @@ const App = () => {
       case "Ash":
       case "Squall":
       case "Tornado":
-        return windy;
+        setWeatherIconSrc(windy);
+        break;
       case "Snow":
-        return snow;
+        setWeatherIconSrc(snow);
+        break;
       case "Thunderstorm":
-        return thunderstorm;
+        setWeatherIconSrc(thunderstorm);
+        break;
       case "Rain":
-        return rainy;
+        setWeatherIconSrc(rainy);
+        break;
       default:
-        return clear;
+        setWeatherIconSrc(cloudy);
+        break;
     }
   };
 
@@ -85,12 +95,14 @@ const App = () => {
         setInputValue={setInputValue}
         checkWeather={checkWeather}
         handleInputChange={handleInputChange}
+        demo={demo}
       />
       <Main
         cityInput={cityInput}
         mainWeather={mainWeather}
         description={description}
         temperature={temperature}
+        weatherIconSrc={weatherIconSrc}
       />
       <Footer minTemperature={minTemperature} maxTemperature={maxTemperature} />
     </div>
