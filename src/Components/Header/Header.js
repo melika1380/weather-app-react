@@ -20,6 +20,7 @@ const Header = ({checkWeather,setInputValue,inputValue,handleInputChange,demo}) 
         </datalist>
         <button onClick={() => {
           checkWeather(inputValue);
+          setInputValue("");
         }}>search</button>
       </div> 
       <div className={styles.demo}>{demo}</div>
