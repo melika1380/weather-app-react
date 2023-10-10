@@ -1,36 +1,34 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import Footer from "./Components/Footer/Footer";
 import Header from "./Components/Header/Header";
 import Main from "./Components/Main/Main";
 
-import icon from "./icon/few-clouds.png";
-import cloudy from "./icon/few-clouds.png";
-import clear from "./icon/clear.png";
-import rainy from "./icon/rainy.png";
-import windy from "./icon/mist.png";
-import snow from "./icon/snow.png";
-import thunderstorm from "./icon/thunderstorm.png";
+import { getIconWeather } from "./Components/GetIcon/GetIcon";
 
 const App = () => {
   const apiKey = "886705b4c1182eb1c69f28eb8c520e20";
   const apiUrl =
     "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
-  const [cityInput, setInputCity] = useState("");
-  const [mainWeather, setMainWeather] = useState("");
-  const [description, setDescription] = useState("");
-  const [temperature, setTemperature] = useState("");
-  const [minTemperature, setMinTemperature] = useState("");
-  const [maxTemperature, setMaxTemperature] = useState("");
-  const [weatherIconSrc, setWeatherIconSrc] = useState(null);
-  const [demo,setDemo]=useState("");
+  const [data, setData] = useState({
+    name: "",
+    mainTemp: "",
+    mainTempMax: "",
+    mainTempMin: "",
+    weatherMain: "",
+    weatherDes: "",
+    icon: "",
+    mainWeather: "",
+  });
+
+  const [error, setError] = useState("");
   const [inputValue, setInputValue] = useState("");
 
-  useEffect(()=>{
+  useEffect(() => {
     checkWeather("tehran");
-},[])
-  
+  }, []);
+
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
   };
@@ -39,52 +37,20 @@ const App = () => {
     try {
       const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
       const data = await response.json();
-      console.log(data);
-      setInputCity(data.name);
-      setTemperature(data.main.temp+"°");
-      setMaxTemperature(data.main.temp_max+"°");
-      setMinTemperature(data.main.temp_min+"°");
-      setMainWeather(data.weather[0].main);
-      setDescription(data.weather[0].description);
-      getIconWeather();
+
+      setData({
+        name: data.name,
+        mainTemp: data.main.temp + "°",
+        mainTempMax: data.main.temp_max + "°",
+        mainTempMin: data.main.temp_min + "°",
+        weatherMain: data.weather[0].main,
+        weatherDes: data.weather[0].description,
+        icon: getIconWeather(data.weather[0].main),
+        mainWeather: data.weather[0].main,
+      });
+      setError("");
     } catch (err) {
-      setDemo("The entered city name is invalid")
-    }
-  };
-  const getIconWeather = (mainWeather) => {
-    switch (mainWeather) {
-      case "Clear":
-        setWeatherIconSrc(clear);
-        break;
-      case "Clouds":
-        setWeatherIconSrc(cloudy);
-        break;
-      case "Drizzle":
-        setWeatherIconSrc(rainy);
-        break;
-      case "Mist":
-      case "Smoke":
-      case "Haze":
-      case "Dust":
-      case "Fog":
-      case "Sand":
-      case "Ash":
-      case "Squall":
-      case "Tornado":
-        setWeatherIconSrc(windy);
-        break;
-      case "Snow":
-        setWeatherIconSrc(snow);
-        break;
-      case "Thunderstorm":
-        setWeatherIconSrc(thunderstorm);
-        break;
-      case "Rain":
-        setWeatherIconSrc(rainy);
-        break;
-      default:
-        setWeatherIconSrc(cloudy);
-        break;
+      setError("The entered city name is invalid");
     }
   };
 
@@ -95,16 +61,10 @@ const App = () => {
         setInputValue={setInputValue}
         checkWeather={checkWeather}
         handleInputChange={handleInputChange}
-        demo={demo}
+        error={error}
       />
-      <Main
-        cityInput={cityInput}
-        mainWeather={mainWeather}
-        description={description}
-        temperature={temperature}
-        weatherIconSrc={weatherIconSrc}
-      />
-      <Footer minTemperature={minTemperature} maxTemperature={maxTemperature} />
+      <Main data={data} />
+      <Footer data={data} />
     </div>
   );
 };
