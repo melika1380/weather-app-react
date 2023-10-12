@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import styles from "./Header.module.css";
+import useMyHook from "../myHook/useMyHook";
 
 const Header = ({
-  checkWeather,
   setInputValue,
   inputValue,
   handleInputChange,
-  error,
 }) => {
+  const { data, error } = useMyHook(inputValue);
+
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
-      checkWeather(inputValue);
       setInputValue("");
     }
   };
@@ -30,9 +30,7 @@ const Header = ({
           <option className={styles.citySelect}></option>
         </datalist>
         <button
-        
           onClick={() => {
-            checkWeather(inputValue);
             setInputValue("");
           }}
         >
