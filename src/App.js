@@ -1,23 +1,31 @@
-import React, { useState } from "react";
+import React from "react";
+
 import Footer from "./Components/Footer/Footer";
 import Header from "./Components/Header/Header";
 import Main from "./Components/Main/Main";
-import useMyHook from "./Components/myHook/useMyHook";
 
+import useWeather from "./Components/useWeather/useWeather";
 
 const App = () => {
-  const [inputValue, setInputValue] = useState("tehran");
-  const { data, error } = useMyHook(inputValue);
+  const apiKey = "886705b4c1182eb1c69f28eb8c520e20";
+  const apiUrl =
+    "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
-  };
+  const {
+    data,
+    error,
+    inputValue,
+    setInputValue,
+    handleInputChange,
+    checkWeather,
+  } = useWeather(apiKey, apiUrl);
 
   return (
     <div>
       <Header
         inputValue={inputValue}
         setInputValue={setInputValue}
+        checkWeather={checkWeather}
         handleInputChange={handleInputChange}
         error={error}
       />
